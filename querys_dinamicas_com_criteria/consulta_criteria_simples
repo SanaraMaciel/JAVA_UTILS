@@ -1,0 +1,70 @@
+	public List<AnimalLote> findByCriteria(AnimalLoteDTO animalLoteDTO) {
+		String idProdRural = keycloakCredentialsProvider.getIdKeycloak();
+
+		return animalLoteRepository.findAll(new Specification<>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<AnimalLote> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+
+				From<?, ?> municipioJoin = root.join("idMunicipio");
+				From<?, ?> racaAnimalJoin = root.join("idRacaAnimal");
+
+				List<Predicate> predicates = new ArrayList<>();
+
+				if (animalLoteDTO.getTpSexo() != null && !animalLoteDTO.getTpSexo().isEmpty()) {
+					predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "tpSexo", TipoSexo.toEnum(animalLoteDTO.getTpSexo()));
+				}
+
+				predicates = CriteriaUtils.addEqualCriteria(racaAnimalJoin, predicates, criteriaBuilder, "idCategoriaAnimal", animalLoteDTO.getIdCategoriaAnimal());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "nrIdadeMedia", animalLoteDTO.getNrIdadeMedia());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "qtPesoKgMedia", animalLoteDTO.getQtPesoKgMedia());
+
+				predicates = CriteriaUtils.addEqualCriteria(municipioJoin, predicates, criteriaBuilder, "idUf", animalLoteDTO.getIdUf());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "idMunicipio", animalLoteDTO.getIdMunicipio());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "vlMercado", animalLoteDTO.getVlMercado());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "vlAvaliacao", animalLoteDTO.getVlAvaliacao());
+
+				predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.join("idProdRural").get("idProdRural"), idProdRural)));
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "idAnimalLote", animalLoteDTO.getIdAnimalLote());
+
+				predicates = CriteriaUtils.addEqualCriteria(racaAnimalJoin, predicates, criteriaBuilder, "idRacaAnimal", animalLoteDTO.getIdRacaAnimal());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "qtAnimal", animalLoteDTO.getQtAnimal());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "vlGarantia", animalLoteDTO.getVlGarantia());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "pcGarantia", animalLoteDTO.getPcGarantia());
+
+				if (animalLoteDTO.getTpUnidadeIdade() != null && !animalLoteDTO.getTpUnidadeIdade().isEmpty()) {
+					predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "tpUnidadeIdade", TipoUnidadeIdade.toEnum(animalLoteDTO.getTpUnidadeIdade()));
+				}
+
+				predicates = CriteriaUtils.addLikeCriteria(root, predicates, criteriaBuilder, "dsCategoriaOutros", animalLoteDTO.getDsCategoriaOutros());
+
+				predicates = CriteriaUtils.addLikeCriteria(root, predicates, criteriaBuilder, "dsRacaOutros", animalLoteDTO.getDsRacaOutros());
+
+				predicates = CriteriaUtils.addGreaterThanOrEqualTo(root, predicates, criteriaBuilder, "dtAvaliacao", animalLoteDTO.getDtAvaliacao());
+
+				if (animalLoteDTO.getDtInclusao() != null) {
+					LocalDateTime dataInclusao = DateUtils.configuraTimestamp(animalLoteDTO.getDtInclusao());
+					predicates = CriteriaUtils.addGreaterThanOrEqualTo(root, predicates, criteriaBuilder, "dtInclusao", dataInclusao);
+				}
+
+				if (animalLoteDTO.getDtExpiracao() != null) {
+					LocalDateTime dataExpiracao = DateUtils.configuraTimestamp(animalLoteDTO.getDtExpiracao());
+					predicates = CriteriaUtils.addGreaterThanOrEqualTo(root, predicates, criteriaBuilder, "dtExpiracao", dataExpiracao);
+				}
+
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
+
+	}

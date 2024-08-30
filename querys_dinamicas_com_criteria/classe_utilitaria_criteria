@@ -1,0 +1,132 @@
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.Predicate;
+
+public class CriteriaUtils {
+
+	private CriteriaUtils() {
+		throw new IllegalStateException("Classe utilitária para criar predicados em consulta dinâmicas.");
+	}
+
+	public static List<Predicate> addEqualCriteria(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Object value) {
+
+		if (value != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(key), value)));
+		}
+
+		return predicates;
+	}
+
+	public static List<Predicate> addLikeCriteria(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Object value) {
+
+		if (value != null && !value.toString().isEmpty()) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get(key), "%" + value + "%")));
+		}
+
+		return predicates;
+	}
+
+	public static List<Predicate> addLikeToStartCriteria(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Object value) {
+
+		if (value != null && !value.toString().isEmpty()) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get(key), value + "%")));
+		}
+
+		return predicates;
+	}
+
+	public static List<Predicate> addEqualNullCriteria(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Object value) {
+
+		if (value == null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.isNull(root.get(key))));
+		}
+
+		return predicates;
+	}
+
+	public static List<Predicate> addEqualNotNullCriteria(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Object value) {
+
+		if (value == null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.isNotNull(root.get(key))));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addGreaterThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, LocalDateTime date) {
+		if (date != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo(root.get(key), date)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addGreaterThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Date date) {
+		if (date != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo(root.get(key), date)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addGreaterThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, LocalDate date) {
+		if (date != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo(root.get(key), date)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addLessThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, LocalDateTime date) {
+		if (date != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get(key), date)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addLessThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, Date date) {
+		if (date != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get(key), date)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addLessThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, LocalDate date) {
+		if (date != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get(key), date)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addBetween(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, LocalDate dateInicial, LocalDate dateFinal) {
+		if (dateInicial != null && dateFinal != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.between(root.get(key), dateInicial, dateFinal)));
+		}
+		return predicates;
+	}
+
+	public static List<Predicate> addLessThanOrEqualTo(From<?, ?> root, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder, String key, BigDecimal value) {
+
+		if (value != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get(key), value)));
+		}
+		return predicates;
+	}
+
+}
+

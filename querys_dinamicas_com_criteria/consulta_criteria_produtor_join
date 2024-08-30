@@ -1,0 +1,105 @@
+	public List<ProdutorRural> findByCriteria(ProdutorRuralDTO produtorRuralDTO) {
+		return produtorRuralRepository.findAll(new Specification<>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<ProdutorRural> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+
+				From<?, ?> classificacaoBeneficiarioJoin = root.join("classificacaoBeneficiario", JoinType.LEFT);
+				From<?, ?> produtorRuralPJJoin = root.join("produtorRuralPj", JoinType.LEFT);
+				From<?, ?> produtorRuralPFJoin = root.join("produtorRuralPf", JoinType.LEFT);
+
+				predicates = CriteriaUtils.addEqualCriteria(classificacaoBeneficiarioJoin, predicates, criteriaBuilder,
+						"idClasBeneficiario", produtorRuralDTO.getIdClassificacaoBeneficiario());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "nrCPFCNPJ",
+						produtorRuralDTO.getNrCpf());
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "nrCPFCNPJ",
+						produtorRuralDTO.getNrCnpj());
+
+				if (produtorRuralDTO.getTipoPessoa() != null && !produtorRuralDTO.getTipoPessoa().isEmpty()) {
+					predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "tipoPessoa",
+							TipoPessoa.toEnum(produtorRuralDTO.getTipoPessoa()));
+				}
+
+				predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "inTermoAceite",
+						produtorRuralDTO.getInTermoAceite());
+
+				predicates = adicionaPredicatoDatas(produtorRuralDTO, predicates, root, criteriaBuilder);
+
+				if (produtorRuralDTO.getCodigoSituacao() != null && !produtorRuralDTO.getCodigoSituacao().isEmpty()) {
+					predicates = CriteriaUtils.addEqualCriteria(root, predicates, criteriaBuilder, "codigoSituacao",
+							CodigoSituacao.toEnum(produtorRuralDTO.getCodigoSituacao()));
+				}
+
+				predicates = adicionaPredicatoProdutorRuralPF(produtorRuralDTO, produtorRuralPFJoin, predicates, criteriaBuilder);
+
+				predicates = CriteriaUtils.addLikeCriteria(produtorRuralPJJoin, predicates, criteriaBuilder,
+						"nmFantasia", produtorRuralDTO.getNmFantasia());
+
+				predicates = CriteriaUtils.addLikeCriteria(produtorRuralPJJoin, predicates, criteriaBuilder,
+						"nmRazaoSocial", produtorRuralDTO.getNmRazaoSocial());
+
+				predicates = CriteriaUtils.addEqualCriteria(produtorRuralPJJoin, predicates, criteriaBuilder,
+						"dtAberturaEmpresa", produtorRuralDTO.getDtAberturaEmpresa());
+
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
+	}
+
+	protected List<Predicate> adicionaPredicatoProdutorRuralPF(ProdutorRuralDTO produtorRuralDTO,
+			From<?, ?> produtorRuralPFJoin, List<Predicate> predicates,
+			CriteriaBuilder criteriaBuilder) {
+
+		predicates = CriteriaUtils.addLikeCriteria(produtorRuralPFJoin, predicates, criteriaBuilder, "nmProdRural",
+				produtorRuralDTO.getNmProdRural());
+
+		predicates = CriteriaUtils.addLikeCriteria(produtorRuralPFJoin, predicates, criteriaBuilder,
+				"nmSocialProdRural", produtorRuralDTO.getNmSocialProdRural());
+
+		predicates = CriteriaUtils.addLikeToStartCriteria(produtorRuralPFJoin, predicates, criteriaBuilder, "nrRg",
+				produtorRuralDTO.getNrRg());
+
+		predicates = CriteriaUtils.addLikeToStartCriteria(produtorRuralPFJoin, predicates, criteriaBuilder,
+				"dsOrgaoEmissor", produtorRuralDTO.getDsOrgaoEmissor());
+
+		predicates = CriteriaUtils.addEqualCriteria(produtorRuralPFJoin, predicates, criteriaBuilder, "dtNascimento",
+				produtorRuralDTO.getDtNascimento());
+
+		predicates = CriteriaUtils.addLikeCriteria(produtorRuralPFJoin, predicates, criteriaBuilder, "nmMae",
+				produtorRuralDTO.getNmMae());
+
+		predicates = CriteriaUtils.addLikeCriteria(produtorRuralPFJoin, predicates, criteriaBuilder, "nmPai",
+				produtorRuralDTO.getNmPai());
+
+		if (produtorRuralDTO.getTipoEstadoCivil() != null && !produtorRuralDTO.getTipoEstadoCivil().isEmpty()) {
+			predicates = CriteriaUtils.addEqualCriteria(produtorRuralPFJoin, predicates, criteriaBuilder,
+					"tipoEstadoCivil", TipoEstadoCivil.toEnum(produtorRuralDTO.getTipoEstadoCivil()));
+		}
+
+		predicates = CriteriaUtils.addEqualCriteria(produtorRuralPFJoin, predicates, criteriaBuilder, "idMunicipio",
+				produtorRuralDTO.getIdMunicipio());
+
+		return predicates;
+	}
+
+	protected List<Predicate> adicionaPredicatoDatas(ProdutorRuralDTO produtorRuralDTO, List<Predicate> predicates,
+			Root<ProdutorRural> root, CriteriaBuilder criteriaBuilder) {
+		if (produtorRuralDTO.getDtInclusao() != null) {
+			LocalDateTime dataInclusao = DateUtils.configuraTimestamp(produtorRuralDTO.getDtInclusao());
+			predicates = CriteriaUtils.addGreaterThanOrEqualTo(root, predicates, criteriaBuilder, "dtInclusao",
+					dataInclusao);
+		}
+
+		if (produtorRuralDTO.getDtExpiracao() != null) {
+			LocalDateTime dataExpiracao = DateUtils.configuraTimestamp(produtorRuralDTO.getDtExpiracao());
+			predicates = CriteriaUtils.addGreaterThanOrEqualTo(root, predicates, criteriaBuilder, "dtExpiracao",
+					dataExpiracao);
+		}
+		return predicates;
+	}
+

@@ -1,0 +1,30 @@
+FROM container-registry.cpqd.com.br/dockerhub/openjdk:11-jdk-slim
+
+# Configura o locale para pt_BR.UTF-8
+RUN apt-get update && apt-get install -y locales cron vim wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && localedef -i pt_BR -c -f UTF-8 -A /usr/share/locale/locale.alias pt_BR.UTF-8
+ENV LANG pt_BR.UTF-8
+ENV LC_ALL pt_BR.UTF-8
+ENV LANGUAGE pt_BR.UTF-8
+
+LABEL "1. Empresa"="CPQD (br.com.cpqd)"
+LABEL "2. Plataforma"="PCRI (br.com.cpqd.pcri)"
+LABEL "3. PCRI"="Plataforma de Crédito Rural Inteligente"
+LABEL "4. Descrição"="Plataforma para intermediar o Crédito Rural entre fornecedores de crédito e produtores rurais."
+
+WORKDIR /opt/pcri
+
+ARG ARTIFACT_VERSION
+ENV ARTIFACT_VERSION=${ARTIFACT_VERSION}
+
+ENV INTEGRATION_DB_HOME=/opt/pcri
+
+COPY target/Integration-viacep-${ARTIFACT_VERSION}.jar /opt/pcri/
+
+CMD java -jar -DINTEGRATION_DB_HOME=/opt/pcri -DAPP_LOG_ROOT=/opt/pcri/viacep/logs \
+              -Dserver.port=8080 -Xms512m -Xmx2048m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m \
+              -Djava.net.preferIPv4Stack=true -XX:+UseStringDeduplication -XX:+OptimizeStringConcat \
+              -XX:+UseG1GC -Duser.Timezone=GMT-3 -Duser.language=pt -Duser.country=BR \
+              -Xrunjdwp:transport=dt_socket,address=8793,server=y,suspend=n Integration-viacep-${ARTIFACT_VERSION}.jar
+

@@ -1,0 +1,37 @@
+public interface JSONView {
+
+	/**
+	 * Interface criada para evitar o uso excessivo de DTO's.
+	 * 
+	 * @author Sanara
+	 * @since 16/09/2021 16:05
+	 * 
+	 * New usado para formulários de cadastro. 
+	 * Update para formulários de  edição. 
+	 * List para listagem de objetos.
+	 * One para listagem de objeto ex: findById.
+	 * 
+	 */
+
+	interface New {
+	}
+
+	interface Update {
+	}
+
+	interface List {
+	}
+
+	interface One {
+	}
+	
+	interface UpdateDTO{
+		
+	}
+	
+	interface Delete{
+		
+	}
+
+}
+

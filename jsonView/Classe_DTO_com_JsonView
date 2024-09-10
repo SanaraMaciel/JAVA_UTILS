@@ -1,0 +1,283 @@
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProdutorRuralDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String idProdRural;
+
+	@Size(max = 14)
+	@JsonView({ View.New.class })
+	private String nrCpf;
+
+	@JsonView({ View.One.class })
+	private transient DocCadastroProdutorRuralDTO upLoadFileCPF;
+
+	@Size(max = 14)
+	@JsonView({ View.New.class })
+	private String nrCnpj;
+
+	@Size(max = 100)
+	@JsonView({ View.New.class, View.Update.class })
+	private String nomeCompleto;
+
+	@JsonView({ View.New.class, View.One.class, View.List.class, View.Update.class })
+	private String tipoPessoa;
+
+	@JsonView({ View.New.class, View.One.class, View.List.class, View.Update.class })
+	private Boolean inTermoAceite;
+
+	@JsonView({ View.One.class, View.List.class, View.New.class, View.Update.class })
+	private String codigoSituacao;
+
+	@JsonView({ View.New.class, View.Update.class })
+	private Integer idClassificacaoBeneficiario;
+
+	@JsonView({ View.One.class, View.List.class })
+	private String dsClassificacaoBeneficiario;
+
+	@JsonView({ View.Update.class })
+	private Integer idClassificacaoBeneficiarioCalc;
+
+	@JsonView({ View.One.class, View.List.class })
+	private String dsClassificacaoBeneficiarioCalc;
+
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonView({ View.One.class, View.List.class })
+	private LocalDateTime dtInclusao;
+
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private LocalDateTime dtExpiracao;
+
+	/* PJ */
+	@Size(max = 100)
+	@JsonView({ View.New.class, View.One.class, View.List.class, View.Update.class })
+	private String nmFantasia;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private Date dtAberturaEmpresa;
+
+	@Size(max = 100)
+	@JsonView({ View.New.class, View.One.class, View.List.class, View.Update.class })
+	private String nmRazaoSocial;
+
+	@JsonView({ View.One.class })
+	private transient DocCadastroProdutorRuralDTO upLoadFileCNPJ;
+	/* Fim PJ */
+
+	/* PF */
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String nmProdRural;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String nmSocialProdRural;
+
+	@Size(max = 20)
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String nrRg;
+
+	@JsonView({ View.One.class })
+	private transient DocCadastroProdutorRuralDTO upLoadFileRG;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private Date dtExpedicao;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String dsOrgaoEmissor;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private Date dtNascimento;
+
+	@Size(max = 100)
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String nmMae;
+
+	@Size(max = 100)
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String nmPai;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private String tipoEstadoCivil;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private Integer idMunicipio;
+
+	@JsonView({ View.One.class, View.List.class })
+	private String dsMunicipio;
+
+	@JsonView({ View.One.class, View.List.class, View.Update.class })
+	private Integer idUf;
+
+	@JsonView({ View.One.class, View.List.class })
+	private String dsUf;
+
+	@JsonView({ View.One.class })
+	private transient DocCadastroProdutorRuralDTO uploadCompResid;
+	/* fim PF */
+
+	/* contatos */
+	@JsonView({ View.New.class, View.Update.class })
+	private String telefoneCelular;
+
+	@JsonView({ View.New.class, View.Update.class, View.One.class, View.List.class })
+	private String telefoneFixo;
+
+	@JsonView({ View.Update.class, View.One.class, View.List.class })
+	private Integer idTelefoneCelular;
+
+	@JsonView({ View.Update.class, View.One.class, View.List.class })
+	private Integer idTelefoneFixo;
+
+	@JsonView({ View.New.class, View.Update.class, View.One.class, View.List.class })
+	private String email;
+
+	@Size(min = 1, max = 4)
+	@JsonView({ View.List.class, View.One.class, View.Update.class })
+	private String nrRamal;
+
+	@JsonView({ View.One.class, View.List.class })
+	private List<EmailProdutorRuralDTO> emailsDTO;
+
+	@JsonView({ View.One.class, View.List.class })
+	private List<TelefoneProdutorRuralDTO> telefonesDTO;
+	/* fim contatos */
+
+	public ProdutorRuralDTO(ProdutorRural produtor, Optional<ProdutorRuralPf> pf, Optional<ProdutorRuralPj> pj) {
+
+		this.idProdRural = produtor.getIdProdRural();
+		this.tipoPessoa = produtor.getTipoPessoa().getName();
+		this.nrCpf = produtor.getNrCPFCNPJ() == null ? null : produtor.getNrCPFCNPJ();
+		this.inTermoAceite = produtor.getInTermoAceite();
+		this.dtInclusao = produtor.getDtInclusao();
+		this.dtExpiracao = produtor.getDtExpiracao();
+		this.tipoPessoa = produtor.getTipoPessoa().getName();
+		this.codigoSituacao = produtor.getCodigoSituacao().getName();
+
+		adicionaClassificacoesProdutor(produtor);
+
+		/* PF */
+		adicionaDadosPf(pf, produtor);
+
+		/* PJ */
+		adicionaDadosPj(pj, produtor);
+
+		/* telefones */
+		adicionaTelefonesProdutor(produtor.getTelefones());
+		
+		this.emailsDTO = produtor.getEmails() == null ? null : montaListaEmailDTO(produtor.getEmails());
+		this.telefonesDTO = produtor.getTelefones() == null ? null : montaListaTelefoneDTO(produtor.getTelefones());
+		this.email = produtor.getEmails().isEmpty() ? null : produtor.getEmails().get(0).getDsEmail();
+
+	}
+
+	private void adicionaDadosPj(Optional<ProdutorRuralPj> pj, ProdutorRural produtor) {
+		if (pj.isPresent()) {
+			this.nmRazaoSocial = pj.map(ProdutorRuralPj::getNmRazaoSocial).orElse(null);
+			this.nrCnpj = tipoPessoa.equals("Juridica") ? produtor.getNrCPFCNPJ() : "";
+			this.dtAberturaEmpresa = pj.map(ProdutorRuralPj::getDtAberturaEmpresa).orElse(null);
+			this.nmFantasia = pj.map(ProdutorRuralPj::getNmFantasia).orElse(null);
+		}
+	}
+
+	private void adicionaDadosPf(Optional<ProdutorRuralPf> pf, ProdutorRural produtor) {
+		if (pf.isPresent()) {
+			this.nrCpf = tipoPessoa.equals("Fisica") ? produtor.getNrCPFCNPJ() : "";
+			this.nmProdRural = pf.get().getNmProdRural();
+			this.nmSocialProdRural = pf.get().getNmSocialProdRural();
+			this.nrRg = pf.get().getNrRg();
+			this.dtExpedicao = pf.get().getDtExpedicao();
+			this.dsOrgaoEmissor = pf.get().getDsOrgaoEmissor();
+			this.dtNascimento = pf.get().getDtNascimento();
+			this.nmMae = pf.get().getNmMae();
+			this.nmPai = pf.get().getNmPai();
+			this.tipoEstadoCivil = pf.get().getTipoEstadoCivil() != null ? pf.get().getTipoEstadoCivil().getName()
+					: null;
+			this.idMunicipio = pf.get().getIdMunicipio() != null ? pf.get().getIdMunicipio().getIdMunicipio() : null;
+			this.dsMunicipio = pf.get().getIdMunicipio() != null ? pf.get().getIdMunicipio().getNmMunicipio() : "";
+			this.idUf = pf.get().getIdMunicipio() != null ? pf.get().getIdMunicipio().getIdUf().getIdUf() : null;
+			this.dsUf = pf.get().getIdMunicipio() != null ? pf.get().getIdMunicipio().getIdUf().getNmUf() : "";
+		}
+	}
+
+	private void adicionaClassificacoesProdutor(ProdutorRural produtor) {
+
+		/* classificação beneficiário */
+		if (produtor.getClassificacaoBeneficiario() != null) {
+			this.idClassificacaoBeneficiario = produtor.getClassificacaoBeneficiario().getIdClasBeneficiario();
+			this.dsClassificacaoBeneficiario = produtor.getClassificacaoBeneficiario().getDsClasBeneficiario();
+		}
+
+		/* Classificação beneficiário Calc */
+		if (produtor.getClassificacaoBeneficiarioCalc() != null) {
+			this.idClassificacaoBeneficiarioCalc = produtor.getClassificacaoBeneficiarioCalc().getIdClasBeneficiario();
+			this.dsClassificacaoBeneficiarioCalc = produtor.getClassificacaoBeneficiarioCalc().getDsClasBeneficiario();
+		}
+
+	}
+
+	private void adicionaTelefonesProdutor(List<TelefoneProdutorRural> telefones) {
+		if (telefones != null && !telefones.isEmpty()) {
+
+			this.telefoneCelular = !pegaTelefoneCelular(telefones).isPresent() ? null
+					: mascaraTelefone(pegaTelefoneCelular(telefones).orElse(null));
+
+			this.idTelefoneCelular = !pegaTelefoneCelular(telefones).isPresent() ? null
+					: idTelefone(pegaTelefoneCelular(telefones).orElse(null));
+
+			this.telefoneFixo = !pegaTelefoneFixo(telefones).isPresent() ? null
+					: mascaraTelefone(pegaTelefoneFixo(telefones).orElse(null));
+
+			this.idTelefoneFixo = !pegaTelefoneFixo(telefones).isPresent() ? null
+					: idTelefone(pegaTelefoneFixo(telefones).orElse(null));
+
+			this.nrRamal = !pegaTelefoneFixo(telefones).isPresent() ? null
+					: numRamalTelefone(pegaTelefoneFixo(telefones).orElse(null));
+		}
+
+	}
+
+	public List<TelefoneProdutorRuralDTO> montaListaTelefoneDTO(List<TelefoneProdutorRural> telefones) {
+
+		List<TelefoneProdutorRuralDTO> telefoneListaDTO = new ArrayList<>();
+		for (TelefoneProdutorRural tel : telefones) {
+			TelefoneProdutorRuralDTO telDTO = new TelefoneProdutorRuralDTO(tel);
+			telefoneListaDTO.add(telDTO);
+		}
+		return telefoneListaDTO;
+	}
+
+	public List<EmailProdutorRuralDTO> montaListaEmailDTO(List<EmailProdutorRural> emails) {
+		List<EmailProdutorRuralDTO> emailListaDTO = new ArrayList<>();
+		for (EmailProdutorRural em : emails) {
+			EmailProdutorRuralDTO emailDTO = new EmailProdutorRuralDTO(em);
+			emailListaDTO.add(emailDTO);
+		}
+		return emailListaDTO;
+	}
+
+	public Optional<TelefoneProdutorRural> pegaTelefoneCelular(List<TelefoneProdutorRural> telefones) {
+		return Optional.ofNullable(
+				telefones.stream().filter(x -> x.getTipoTelefone().equals(TipoTelefone.C)).findFirst().orElse(null));
+	}
+
+	public Optional<TelefoneProdutorRural> pegaTelefoneFixo(List<TelefoneProdutorRural> telefones) {
+		return Optional.ofNullable(
+				telefones.stream().filter(x -> x.getTipoTelefone().equals(TipoTelefone.F)).findFirst().orElse(null));
+	}
+
+	public String mascaraTelefone(TelefoneProdutorRural telProdRural) {
+		return "+".concat(telProdRural.getNumDDI()).concat(" ").concat("(").concat(telProdRural.getNumDDD()).concat(")")
+				.concat(" ").concat(telProdRural.getNumTelefone());
+	}
+
+	public Integer idTelefone(TelefoneProdutorRural telProdRural) {
+		return telProdRural.getIdTelProdRural();
+	}
+
+	public String numRamalTelefone(TelefoneProdutorRural telProdRural) {
+		return telProdRural.getNumRamal();
+	}
+}

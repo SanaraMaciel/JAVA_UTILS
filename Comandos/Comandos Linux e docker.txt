@@ -1,0 +1,51 @@
+para pegar o IP da máquina (linux) : hostname -I 
+
+executar os arquivos de build nas pastas : sudo ./build.sh
+
+derrubar uma execução docker: sudo docker-compose down
+
+subir uma nova exec docker: sudo docker-compose up -d
+
+Para mostrar os logs de alguma pasta: sudo docker logs -f cpqd-manager 
+
+para conceder permissão de edição para algum arquivo: sudo chmod 777 ./start.sh (./start.sh é o nome do arquivo q precisa da permissão)
+
+
+criando uma network cpqd: sudo docker network create cpqd-network
+
+instalando o docker compose na máquina ubuntu: sudo apt-get install docker-compose
+
+verificando e atualizando o compose : sudo apt-get docker-compose
+
+iniciar o serviço docker na máquina: sudo service docker start
+
+verificar o status do docker na máquina: sudo systemctl status docker
+
+verificar a versão do docker instalada: docker --version
+
+listar as imagens docker ativas: sudo docker images -a
+
+mostrar os conteiners disponíveis: sudo docker ps
+
+remover uma imagem docker com problema(ex: keycloak): sudo docker rmi <id-da-imagem>
+
+"matar" todos os processos de uma só vez: docker ps -aq|xargs docker stop
+
+mostrar os arquivos ocultos do linux: sudo ls -la
+
+
+mostrar os processos que estão executando a porta pesquisada: netstat -anop | grep 37525
+
+Lista todos os processos que estão rodando: sudo netstat -tlpn
+
+Lista todos os processos que estão rodando na porta 8000 : sudo netstat -tlpn | grep 8000
+
+Mata processo que está rodando na porta 8000 : sudo kill -9 `sudo lsof -t -i:8000` ou  sudo kill -9 $(lsof -t -i:8000)
+
+criar uma network de um conteiner: sudo docker network create cpqd-gr40-network
+
+//verificar 
+sudo vi /etc/resolv.conf
+sudo vi /etc/wsl.conf
+
+

@@ -1,0 +1,13 @@
+para executar a aplicação: mvn install quarkus:dev
+
+para compilar a aplicação: mvn compile quarkus:dev
+
+
+
+/*para gerr o binário*/
+https://aka.ms/vs/15/release/vs_buildtools.exe
+
+cmd /c 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && mvn package -Pnative'
+
+https://quarkus.io/guides/building-native-image
+

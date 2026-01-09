@@ -1,0 +1,26 @@
+** Para instalar o programa acesse: sdkman.io/install e siga os passos descritos na página
+
+Abra o terminal e digite: 
+
+curl -s "https://get.sdkman.io" | bash
+
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+sdk version
+
+** Comando para listar todos as versões do java disponiveis: sdk list java
+
+** Para instalar o java utilize assim: sdk install java e cole o identifier, ou seja, a versão desejada
+
+** Para verificar qual versão de Java está sendo usada como a versão default : java -version
+
+** Para alterar a versão de Java que ele vai usar :  sdk use java e coloca o identifier da versão java que deseja utilizar
+
+** Para deixar alguma versão do java como versão Default: sdk default java 21.0.4-amzn
+
+sdk use java 21.0.4-amzn
+
+sdk use java 11.0.24-amzn
+
+
+
